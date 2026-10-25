@@ -17,6 +17,12 @@ endif()
 
 find_package(ZLIB REQUIRED)
 find_package(SQLite3 REQUIRED)
+# CMake >= 4.0 names the target SQLite3::SQLite3; older versions (e.g. Ubuntu 24.04's 3.28) use SQLite::SQLite3.
+if(TARGET SQLite3::SQLite3)
+  set(TICKSTORE_SQLITE SQLite3::SQLite3)
+else()
+  set(TICKSTORE_SQLITE SQLite::SQLite3)
+endif()
 
 add_library(tickstore src/source.cpp src/feed.cpp src/store.cpp src/analytics.cpp)
 target_include_directories(tickstore PUBLIC include)
@@ -24,7 +30,7 @@ target_link_libraries(tickstore PUBLIC ZLIB::ZLIB)
 
 foreach(tool ts_ingest ts_query ts_report ts_bench)
   add_executable(${tool} tools/${tool}.cpp)
-  target_link_libraries(${tool} PRIVATE tickstore SQLite3::SQLite3)
+  target_link_libraries(${tool} PRIVATE tickstore ${TICKSTORE_SQLITE})
 endforeach()
 
 include(FetchContent)
