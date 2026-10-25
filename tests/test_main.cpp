@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <zlib.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <filesystem>
@@ -192,7 +193,7 @@ TEST(Codec, VarintTruncatedThrows) {
 }
 
 TEST(Codec, Zigzag) {
-    for (std::int64_t v : {0LL, 1LL, -1LL, 2LL, -2LL, INT64_MAX, INT64_MIN}) EXPECT_EQ(unzigzag(zigzag(v)), v);
+    for (std::int64_t v : std::initializer_list<std::int64_t>{0, 1, -1, 2, -2, INT64_MAX, INT64_MIN}) EXPECT_EQ(unzigzag(zigzag(v)), v);
     EXPECT_EQ(zigzag(-1), 1u);
     EXPECT_EQ(zigzag(1), 2u);
 }
