@@ -1,0 +1,1 @@
+{"note": "first run after ingest (cold page cache), produced before index totals were added to ts_bench output", "queries": 1000, "active_symbols": 3737, "window_minutes": 30, "rows_returned": 5055587, "rows_per_second": 5442573, "chunks_decoded": 4024, "p50_us": 525, "p90_us": 1613, "p99_us": 6810, "max_us": 42718}

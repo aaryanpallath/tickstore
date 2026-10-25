@@ -1,0 +1,1 @@
+{"symbols": 13289, "chunks": 203924, "index_trades": 7103356, "index_quotes": 375827080, "queries": 1000, "active_symbols": 3737, "window_minutes": 30, "rows_returned": 5055587, "rows_per_second": 42401008, "chunks_decoded": 4024, "p50_us": 60, "p90_us": 228, "p99_us": 1010, "max_us": 4225}

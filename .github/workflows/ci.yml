@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        config:
+          - { name: release, flags: "-DCMAKE_BUILD_TYPE=Release" }
+          - { name: asan-ubsan, flags: "-DCMAKE_BUILD_TYPE=Debug -DTICKSTORE_SANITIZE=ON" }
+    name: ${{ matrix.config.name }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends zlib1g-dev libsqlite3-dev
+      - name: Configure
+        run: cmake -S . -B build ${{ matrix.config.flags }}
+      - name: Build
+        run: cmake --build build -j
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
